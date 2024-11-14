@@ -17,7 +17,7 @@ Tnf, ~~the north face~~, the next framework. Tnf is focused on simple, performan
 - Conventional global style with `src/global.{less,css}`.
 - Less, CSS Modules support built-in.
 - Tailwind CSS support built-in.
-- [ ] Framework unplugin which is compatible with umi and other frameworks.
+- [Framework unified plugin system](./docs/plugin.md) which is compatible with umi and other frameworks.
 - [ ] Security built-in. Including doctor rules which is used in Ant Group.
 - [ ] Support SSR, API routes and server functions.
 - [ ] AI based generator and other features.
@@ -51,6 +51,7 @@ $ pnpm preview
 ## Commands
 
 - `tnf build`: Build the project.
+- `tnf config list/get/set/remove [name] [value]`: Manage the config.
 - `tnf dev`: Start the development server.
 - `tnf generate/g <type> <name>`: Generate a new page (or component and other types in the future).
 - `tnf preview`: Preview the product after building the project.
@@ -64,10 +65,12 @@ $ pnpm preview
 
 Config is loaded from `.tnfrc.ts` by default.
 
+- `alias: [string, string][]`: An array of alias pairs.
+- `bundler: 'webpack' | 'mako'`: The bundler to use, default is `mako`.
 - `devServer: { port?: number; host?: string; https?: { hosts?: string[] }; ip?: string }`: The development server configuration.
 - `externals: Record<string, string>`: An object that maps package names to their corresponding paths.
 - `less: { modifyVars?: Record<string, string>; globalVars?: Record<string, string>; math?: 'always' | 'strict' | 'parens-division' | 'parens' | 'strict-legacy' | number; sourceMap?: any; plugins?: (string | [string, Record<string, any>])[];}`: The configuration passed to lessLoader.
-- `router: { defaultPreload?: 'intent' | 'render' | 'viewport'; defaultPreloadDelay?: number; devtool?: { options?: { initialIsOpen?: boolean; position?: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' }; } | false }`: The router configuration.
+- `router: { defaultPreload?: 'intent' | 'render' | 'viewport'; defaultPreloadDelay?: number; devtool?: { options?: { initialIsOpen?: boolean; position?: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right' }; } | false; convention?: [@tanstack/router-generator](https://github.com/TanStack/router/blob/main/packages/router-generator/src/config.ts#L22C14-L22C26).Config }`: The router configuration.
 - `tailwindcss: boolean`: Turn on/off tailwindcss. Need to be used in conjunction with `src/tailwind.css` and `tailwind.config.js`.
 
 ## FAQ

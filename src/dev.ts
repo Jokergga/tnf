@@ -1,25 +1,23 @@
-import type { BuildParams } from '@umijs/mako';
 import { build } from './build';
+import { createBundler } from './bundler/bundler';
+import { BundlerType } from './bundler/bundler';
 import { createServer } from './fishkit/server';
 import type { Context } from './types';
 
 export async function dev({ context }: { context: Context }) {
   const devServer = context.config?.devServer || {};
-  const { hmrPort, host } = await createServer({ devServer, hmr: true });
-
-  // build mako config
-  let devMakoConfig: BuildParams['config'] = {};
-  if (process.env.HMR === 'none') {
-    devMakoConfig.hmr = false;
-  } else {
-    devMakoConfig.hmr = {};
-  }
-  devMakoConfig.devServer = { port: hmrPort, host };
-  devMakoConfig.mode = 'development';
-
+  const { port, host, server, app } = await createServer({
+    devServer,
+  });
+  const bundler = createBundler({ bundler: BundlerType.MAKO });
+  await bundler.configDevServer({
+    app,
+    host,
+    port,
+    server,
+  });
   await build({
     context,
-    devMakoConfig,
     watch: true,
   });
 }
